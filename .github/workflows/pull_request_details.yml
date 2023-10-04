@@ -14,8 +14,11 @@ jobs:
 
       - name: Print Pull Request Details
         run: |
+          git fetch --all
           echo "Hello World"
           echo "Autor: ${{ github.event.pull_request.user.login }}"
           echo "Ultimo commit: ${{ github.event.pull_request.head.sha }}"
           echo "Cambios entre el último commit y la rama principal (default branch):"
-          git diff --name-only ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}
+          branch_name="${{ github.event.pull_request.head.ref }}"
+          git checkout origin/"${branch_name}"
+          git diff origin/main
